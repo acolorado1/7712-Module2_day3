@@ -1,144 +1,144 @@
 '''
 Author: Angela Sofia Burkhart Colorado
 Date: February 25th, 2022
-Purpose: This program is supposed take several sequence reads from a file and generate a de bruijn graph that will be
-traversed in order to create and find the largest contig sequences.
+Purpose: This program is supposed take several sequences, find all kmers (edges), get k-1mers (nodes), create an
+adjacency list of them (graph) and using DFS (Depth First Search) graph traversal get all possible paths in the graph.
+These paths will then take the nodes and create all possible contigs with starting nodes being those that only have
+edges pointing away from them.
 '''
 
-import toyplot
-import numpy as np
-
-'''
-parser arguments go here 
-'''
-
-
-# Get k-mers
-def kmer(reads, k):
+# get kmers (these are the edges)
+def kmers (reads, k):
     kmers = []
-    # for each sequence
+    # for every read in dictionary of reads
     for key in reads:
-        seq = reads[key]
-        # index sequence from current index to index + k
-        for index in range(0,len(seq)-k+1):
-            kmers.append(seq[index:index+k])
+        read = reads[key]
+        # for every fragment of k length
+        for index in range(0,len(read)-k + 1):
+            kmers.append(read[index: index + k])
+    # list of k-length fragments (strings)
     return kmers
 
 
-# Count number of times a unique kmer appeared
-def count_kmers(kmers):
-    # find all unique kmers
-    unique_kmers = list(set(kmers))
-    kmer_dict = {}
-    # generate empty dictionary with unique kmers (keys) and 0 (values)
-    for item in unique_kmers:
-        kmer_dict[item] = 0
-    # count how many times they appeared
+# get the k-1mers (these will be the nodes), take each kmer and take the first k-1 characters (prefix) and the last k-1
+# characters (suffix)
+def k_1mers (kmers):
+    nodes = set()
     for kmer in kmers:
-        kmer_dict[kmer] += 1
-    return kmer_dict
+        # add to set tuple of kmer prefix and suffix
+        nodes.add((kmer[:-1], kmer[1:]))
+    # return set of tuples (prefix, suffix)
+    return nodes
 
 
-# Get all edges by finding which k-1mers overlap
-def edges(kmers_and_counts, k):
-    edges = set()
-    last_kmer = []
-    # compare kmer k-1mers to find overlaps
-    for kmer1 in kmers_and_counts:
-        for kmer2 in kmers_and_counts:
-            # if the kmer is not the same
-            if kmer1 != kmer2:
-                if kmer1[1:] == kmer2[0:k-1]:
-                    edges.add((kmer1[0:k-1], kmer2[0:k-1]))
-                    # get potential last k-1mer pair
-                    last_kmer.append((kmer1[1:], kmer2[1:]))
-                if kmer1[0:k-1] == kmer2[1:]:
-                    edges.add((kmer2[0:k-1], kmer1[0:k-1]))
-    for pair in last_kmer:
-        if pair not in edges:
-            edges.add(pair)
-    return edges
+# get adjacency list of nodes
+def adjacency_list(nodes):
+    adj_list = {}
+    # for each tuple
+    for pair in nodes:
+        # if the first item in the tuple (node) is not a key in adj_list dictionary
+        if pair[0] not in adj_list.keys():
+            # add it as a key with empty list value
+            adj_list[pair[0]] = []
+        # if the second item in the tuple (node) is not a key in adj_list dictionary
+        if pair[1] not in adj_list.keys():
+            # add it as a key with empty list value
+            adj_list[pair[1]] = []
+        # add second item in tuple to list of first item in tuple
+        adj_list[pair[0]].append(pair[1])
+    # return a dictionary containing each node (keys) and the nodes they connect to (directed) as a list (values)
+    return adj_list
 
 
-
-# TODO
-# Plot graph
-def plot_graph(edges):
-    # return graph made using toyplot
-    graph_edges = np.array(edges)
-    graph = toyplot.graph(graph_edges, ewidth=1.0)
-    return graph
-
-
-# Creates a dictionary of all node pairs containing k-1mers
-def graph_dict (edges):
-    graph = {}
-    for pair in edges:
-        node1 = pair[0]
-        node2 = pair[1]
-        if node1 not in graph.keys():
-            graph[node1] = []
-        graph[node1].append(node2)
-    return graph
-
-
-# using Depth First Traversal find a potential contig
-def dfs(startnode, graph, previousnode=None):
-    visited = []
-    visited.append(startnode)
-    tempgraph = graph
-    nextnode = tempgraph[startnode][0]
-    # while next node is not the last node
-    while nextnode in list(tempgraph):
-        visited.append(nextnode)
-        # if not the first node
-        if previousnode is not None:
-            del tempgraph[previousnode]
-        previousnode = startnode
-        startnode = nextnode
-        nextnode = tempgraph[startnode][0]
-    visited.append(nextnode)
+# using depth first search (DFS) graph traversal get all nodes in a path
+def graph_traversal(adjacency_list, startnode,  visited=None):
+    # if the object visited is a None object
+    if visited is None:
+        # initialize visited list
+        visited = []
+    # if the start node is not in the visited list
+    if startnode not in visited:
+        # append start node to visited list
+        visited.append(startnode)
+        # for the next node in the sequence taken from list (value) of startnode (key)
+        for neighbour in graph[startnode]:
+            # call graph_traversal function to get the following node
+            graph_traversal(adjacency_list, neighbour, visited)
+    # return list of visited node or path
     return visited
 
 
-
-# test all k-1mers as starting node to find largest contig
-def largest_contig(graph):
-    largest = ""
-    for key in graph:
-        contig = dfs(key, graph)
-        print(graph)
-        print(contig)
-        if len(largest) < len(contig):
-            largest = contig
-    return largest
-
-
-# TODO
-# turn largest contig from a list to a string sequence
-def listtosequnce (largest_contig):
-    sequence = ""
-    for index in range(len(largest_contig)):
-        if index == 0:
-            sequence += largest_contig[index]
-        else:
-            k_1mer = largest_contig[index]
-            sequence += k_1mer[-1]
-    return sequence
+# get all start and ending nodes
+def list_startnodes_endnodes(tuple_nodes):
+    temp_startnode_list = []
+    temp_endnode_list = []
+    # for every tuple of connected nodes
+    for tuple in tuple_nodes:
+        # append node in the first index
+        temp_startnode_list.append(tuple[0])
+        # append node in the second index
+        temp_endnode_list.append(tuple[1])
+    # find all nodes that are in the first position of the tuple but not in the second
+    start_set_difference = set(temp_startnode_list) - set(temp_endnode_list)
+    # find all nodes that are in the second position of the tuple but not in the first
+    end_set_difference = set(temp_endnode_list) - set(temp_startnode_list)
+    startnodes = list(start_set_difference)
+    endnodes = list(end_set_difference)
+    # return tuple of start nodes list and end nodes list
+    return startnodes, endnodes
 
 
-read = {1:"MYDOGMAX"}
-reads = {1:"MYDOGMAX", 2:"MYDOGSMOKEY"}
-kmers = kmer(reads, 4)
-kmer_counts = count_kmers(kmers)
-edges = edges(kmer_counts,4)
-graph = graph_dict(edges)
-print(graph)
-
-#print(dfs("MYD", graph))
-#largest_contig = largest_contig(graph)
-
-#seq = listtosequnce(largest_contig)
-
+# use all nodes in the startnodes list as all startnodes to possible paths/contigs
+def startnode(startnodes, adjacency_list):
+    contigs = []
+    # for each node (key) in the adjacency_list dictionary
+    for startnode in startnodes:
+        # find path using node as startnode
+        graph = graph_traversal(adjacency_list, startnode)
+        # append path to list
+        contigs.append(graph)
+    # return list of lists containing paths
+    return contigs
 
 
+# take list of lists with paths and create string contigs
+def contigs(listoflistcontigs, endnodes):
+    stringcontigs = []
+    # for each list of nodes in path
+    for contiglist in listoflistcontigs:
+        contig = ''
+        # if the last node in the contiglist is a node in the endnodes list
+        if contiglist[-1] in endnodes:
+            # for every node
+            for index in range(len(contiglist)):
+                # if the fist node
+                if index == 0:
+                    # add node to contig string
+                    contig += contiglist[index]
+                # if not first node
+                else:
+                    # add the last character in node string to contig string
+                    contig += contiglist[index][-1]
+            # append full contig from path to list
+            stringcontigs.append(contig)
+    # return list of possible contigs
+    return stringcontigs
+
+read = {1: "MYDOGMAX"}
+reads = {1: "MYDOGMAX", 2: "MYDOGSMOKEY"}
+edges = kmers(reads, 4)
+nodes = k_1mers(edges)
+graph = adjacency_list(nodes)
+start_end_nodes = list_startnodes_endnodes(nodes)
+startnodes = start_end_nodes[0]
+endnodes = start_end_nodes[1]
+listoflistscontigs = startnode(startnodes, graph)
+
+print('edges: ', edges)
+print('nodes: ', nodes)
+print('graph: ', graph)
+print('startnodes: ', startnodes)
+print('endnodes: ', endnodes, '\n')
+
+
+print(contigs(listoflistscontigs, endnodes))
