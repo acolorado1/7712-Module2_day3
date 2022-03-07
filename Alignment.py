@@ -7,12 +7,15 @@ align to the contig with 95% (check the rate of errors) fidelity.
 '''
 
 # TODO
+# align query sequence to assembled contigs
 def alignment(contigs, query):
     # for each contig
         # walk along the sequence
         # find region that matches query with only under 5% error (check this percentage)
     return None
 
+# TODO
+# align query sequence to flipped assembled contigs
 def reverse_alignment(contigs, query):
     # for each contig
         # flip the contig to get the reverse strand

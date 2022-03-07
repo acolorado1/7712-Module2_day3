@@ -8,6 +8,7 @@ ending coordinates in the sequencing read that matched with the query, and the s
 contig that matched with the query sequence.
 '''
 
+# TODO
 # creates first output file with largest contig containing query sequence
 def largest_contig(aligned_contigs):
     # for every contig alligned to query sequence
@@ -15,7 +16,7 @@ def largest_contig(aligned_contigs):
     # write it into a file named ALLELES.fasta
     return None
 
-
+# TODO
 # creates output file containing contig information
 def contig_information(aligned_contigs):
     # for every contig alligned to query sequence
