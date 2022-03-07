@@ -124,21 +124,3 @@ def contigs(listoflistcontigs, endnodes):
     # return list of possible contigs
     return stringcontigs
 
-read = {1: "MYDOGMAX"}
-reads = {1: "MYDOGMAX", 2: "MYDOGSMOKEY"}
-edges = kmers(reads, 4)
-nodes = k_1mers(edges)
-graph = adjacency_list(nodes)
-start_end_nodes = list_startnodes_endnodes(nodes)
-startnodes = start_end_nodes[0]
-endnodes = start_end_nodes[1]
-listoflistscontigs = startnode(startnodes, graph)
-
-print('edges: ', edges)
-print('nodes: ', nodes)
-print('graph: ', graph)
-print('startnodes: ', startnodes)
-print('endnodes: ', endnodes, '\n')
-
-
-print(contigs(listoflistscontigs, endnodes))
