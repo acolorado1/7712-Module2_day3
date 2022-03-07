@@ -1,7 +1,7 @@
 '''
 Author: Angela Sofia Burkhart Colorado
 Date: February 25th, 2022
-Purpose: This program is supposed take several sequences, find all kmers (edges), get k-1mers (nodes), create an
+Purpose: This program takes several sequences, find all kmers (edges), get k-1mers (nodes), create an
 adjacency list of them (graph) and using DFS (Depth First Search) graph traversal get all possible paths in the graph.
 These paths will then take the nodes and create all possible contigs with starting nodes being those that only have
 edges pointing away from them.
@@ -61,7 +61,7 @@ def graph_traversal(adjacency_list, startnode,  visited=None):
         # append start node to visited list
         visited.append(startnode)
         # for the next node in the sequence taken from list (value) of startnode (key)
-        for neighbour in graph[startnode]:
+        for neighbour in adjacency_list[startnode]:
             # call graph_traversal function to get the following node
             graph_traversal(adjacency_list, neighbour, visited)
     # return list of visited node or path
