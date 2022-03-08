@@ -8,14 +8,19 @@ edges pointing away from them.
 '''
 
 # get kmers (these are the edges)
-def kmers (reads, k):
-    kmers = []
-    # for every read in dictionary of reads
-    for key in reads:
-        read = reads[key]
-        # for every fragment of k length
-        for index in range(0,len(read)-k + 1):
-            kmers.append(read[index: index + k])
+def kmers (reads, k, largest_sequence):
+    # if k is smaller than or equal to the shortest read
+    if k <= largest_sequence:
+        kmers = []
+        # for every read in dictionary of reads
+        for key in reads:
+            read = reads[key]
+            # for every fragment of k length
+            for index in range(0,len(read)-k + 1):
+                kmers.append(read[index: index + k])
+    # else write exception message warning that k is larger than shortest read
+    else:
+        raise Exception("k is larger than the shortest read, pick k smaller than", largest_sequence)
     # list of k-length fragments (strings)
     return kmers
 
@@ -92,33 +97,39 @@ def list_startnodes_endnodes(tuple_nodes):
 def startnode(startnodes, adjacency_list):
     contigs = []
     # for each node (key) in the adjacency_list dictionary
-    for startnode in startnodes:
-        # find path using node as startnode
-        graph = graph_traversal(adjacency_list, startnode)
-        # append path to list
-        contigs.append(graph)
+    if len(startnodes) > 0:
+        for startnode in startnodes:
+            # find path using node as startnode
+            graph = graph_traversal(adjacency_list, startnode)
+            # append path to list
+            contigs.append(graph)
+    else:
+        # for every node in the adjacency list (keys)
+        for key in adjacency_list:
+            # find path using key as startnode
+            graph = graph_traversal(adjacency_list, key)
+            # append path to list
+            contigs.append(graph)
     # return list of lists containing paths
     return contigs
 
 
 # take list of lists with paths and create string contigs
-def contigs(listoflistcontigs, endnodes):
+def contigs(listoflistcontigs):
     stringcontigs = []
     # for each list of nodes in path
     for contiglist in listoflistcontigs:
         contig = ''
-        # if the last node in the contiglist is a node in the endnodes list
-        if contiglist[-1] in endnodes:
-            # for every node
-            for index in range(len(contiglist)):
-                # if the fist node
-                if index == 0:
-                    # add node to contig string
-                    contig += contiglist[index]
-                # if not first node
-                else:
-                    # add the last character in node string to contig string
-                    contig += contiglist[index][-1]
+        # for every node
+        for index in range(len(contiglist)):
+            # if the fist node
+            if index == 0:
+                # add node to contig string
+                contig += contiglist[index]
+            # if not first node
+            else:
+                # add the last character in node string to contig string
+                contig += contiglist[index][-1]
             # append full contig from path to list
             stringcontigs.append(contig)
     # return list of possible contigs
