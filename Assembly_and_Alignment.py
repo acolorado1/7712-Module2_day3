@@ -44,9 +44,9 @@ def assemble_and_align(query_file, reads_file, k):
 
     return contigs
 
-print(assemble_and_align(args.qf, args.rf, args.k))
+assemble_and_align(args.qf, args.rf, args.k)
 
-query_file = "C:\\Users\\ascol\\OneDrive\\Desktop\\7712\\QUERY.fasta"
-file_reads = "C:\\Users\\ascol\\OneDrive\\Desktop\\7712\\READS.fasta"
-#reads = {1: "MYDOGMAX", 2: "MYDOGSMOKEY"}
 
+# File paths to be removed prior to final submission
+# query_file = "C:\\Users\\ascol\\OneDrive\\Desktop\\7712\\QUERY.fasta"
+# file_reads = "C:\\Users\\ascol\\OneDrive\\Desktop\\7712\\READS.fasta"

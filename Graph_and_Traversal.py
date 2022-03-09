@@ -8,7 +8,7 @@ edges pointing away from them.
 '''
 
 # get kmers (these are the edges)
-def kmers (reads, k, largest_sequence):
+def kmers(reads, k, largest_sequence):
     # if k is smaller than or equal to the shortest read
     if k <= largest_sequence:
         kmers = []
@@ -27,7 +27,7 @@ def kmers (reads, k, largest_sequence):
 
 # get the k-1mers (these will be the nodes), take each kmer and take the first k-1 characters (prefix) and the last k-1
 # characters (suffix)
-def k_1mers (kmers):
+def k_1mers(kmers):
     nodes = set()
     for kmer in kmers:
         # add to set tuple of kmer prefix and suffix
