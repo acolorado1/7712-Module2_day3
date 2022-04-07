@@ -19,7 +19,9 @@ def query_sequence(query_file):
     return query_sequence
 
 
-# function takes FASTA file and outputs dictionary containing read information as keys and read sequence as values
+# function takes FASTA file and outputs a list containing three objects. 1) an integer value of the length of the
+# shortest read, 2) a set of scaffold IDs, and 3) dictionary containing read information as keys and read sequence as
+# values
 def reads(reads_file):
     f = open(reads_file, "r")
     reads_dict = {}
@@ -31,7 +33,7 @@ def reads(reads_file):
         # if the line begins with a greater sign
         if line[0] == ">":
             read_info = line[1:]
-            scaffolds.add(read_info[:4])
+            scaffolds.add(read_info[:5])
         # else take the read info as key and the line (containing sequence) as value in the dictionary
         else:
             reads_dict[read_info] = line
@@ -45,7 +47,28 @@ def reads(reads_file):
                 shortest_read = len(line)
     # return list containing length of shortest read, set of scaffolds and dictionary of read information (keys) and
     # sequence (values)
-    return [shortest_read, scaffolds, reads_dict]
+    ReadInfo = {"shortest_read": shortest_read, "scaffolds": scaffolds, "reads_dict": reads_dict}
+    return ReadInfo
+
+# takes the different scaffolds and finds all reads in them
+def divide_by_scaffold(shortestread_scaffolds_reads):
+    # initiate a list of dictionaries containing reads from each scaffolds
+    dict_per_scaffold = {}
+    # for every scaffold in the set of scaffolds
+    for scaffold in shortestread_scaffolds_reads["scaffolds"]:
+        # initiate dictionary that will containing fasta id (keys) and reads (values)
+        dict_of_scaffold = {}
+        # for every fasta ID (key) in dictionary
+        for key in shortestread_scaffolds_reads["reads_dict"]:
+            # if the scaffold is the same as the first 5 indecies in FASTA ID
+            if scaffold == key[:5]:
+                # append key (FASTA ID) and values (read) to new dictionary
+                dict_of_scaffold[key] = shortestread_scaffolds_reads["reads_dict"][key]
+        # add dictionary as value and scaffold as key to dictionary containig all scaffolds
+        dict_per_scaffold[scaffold]=dict_of_scaffold
+    return dict_per_scaffold
+
+
 
 
 
