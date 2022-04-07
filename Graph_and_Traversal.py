@@ -191,8 +191,8 @@ def all_traversals(nodes, graph, start = False):
         paths[path_count] = path
         # add to path count
         path_count += 1
-        '''if path_count > 1000:
-            break'''
+        if path_count > 1000:
+            break
     # return dictionary containing all paths
     return paths
 
