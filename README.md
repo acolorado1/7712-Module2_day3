@@ -77,7 +77,8 @@ This program will output two file: ALLELES.fasta and ALLELES.aln.
 
 Example of ALLELES.fasta output: 
 
-These contigs were assembled with test reads using input files **QUERY_test.fasta** and **READS_test.fasta**
+These contigs were assembled and aligned with test reads and query sequence using input files **QUERY_test.fasta** and 
+**READS_test.fasta**.
 
 ```text
 >2G5Z1: contig1
