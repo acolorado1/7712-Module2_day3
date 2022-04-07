@@ -108,7 +108,7 @@ def contig_information(contig_info, alignment_info, largest_contig_info,k):
         count += 1
     # todo remove path
     # open file where alignment info will be written into
-    f = open("C:\\Users\\ascol\\OneDrive\\Desktop\\7712\\output.aln", "w")
+    f = open("C:\\Users\\ascol\\OneDrive\\Desktop\\7712\\ALLELES.aln", "w")
     # write header information
     f.write("sseqid \t qseqid \t sstart \t send \t qstart \t qend \t pcutoff\n")
     # for every key value pair in line info dictionary

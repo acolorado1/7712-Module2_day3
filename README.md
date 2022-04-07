@@ -77,7 +77,7 @@ This program will output two file: ALLELES.fasta and ALLELES.aln.
 
 Example of ALLELES.fasta output: 
 
-Note: these contigs were assembled with test reads. 
+These contigs were assembled with test reads using input files **QUERY_test.fasta** and **READS_test.fasta**
 
 ```text
 >2G5Z1: contig1
@@ -89,7 +89,7 @@ MYDOGMAXSMOKEY
 Example of ALLELES.aln output: 
 
 ```text
-sseqid 	            qseqid 	 sstart 	 send 	 qstart 	 qend 	 pcutoff
+sseqid 	                qseqid 	    sstart 	    send 	 qstart     qend 	 pcutoff
 2G5Z1:02016:13108 	 contig1 	 4 	        2 	    4 	        2 	 1.0
 2G5Z3:02016:13108 	 contig1 	 2 	        4 	    2 	        4 	 1.0
 ```
