@@ -32,9 +32,9 @@ def largest_contig(aligned_info):
         # add the largest contig aligned contig from the scaffold into a dictionary
         largest_contig_info[(scaffold, key)] = sequence
 
-    # todo remove this
+
     # open a file where the largest contigs will be written into
-    f = open("C:\\Users\\ascol\\OneDrive\\Desktop\\7712\\ALLELES.fasta", "w")
+    f = open("ALLELES.fasta", "w")
     # for every key in the largest aligned contigs dictionary
     for key in largest_contig_info:
         # get the scaffold information from the key
@@ -82,7 +82,7 @@ def contig_information(contig_info, alignment_info, largest_contig_info,k):
             read_start_position = contig_start_position
         # if the contig start position is greater than or equal to 3
         else:
-            # find node corresponding to contig position (2 indecies lower than contig position)
+            # find node corresponding to contig position (2 indexes lower than contig position)
             find_node = k-2
             # get the node whose ending position will equal the reads ending position
             start_node = path[contig_start_position-find_node]
@@ -106,9 +106,9 @@ def contig_information(contig_info, alignment_info, largest_contig_info,k):
                             str(contig_start_position), str(contig_end_position), str(contig_percent_cutoff)]
         # increase counter
         count += 1
-    # todo remove path
+
     # open file where alignment info will be written into
-    f = open("C:\\Users\\ascol\\OneDrive\\Desktop\\7712\\ALLELES.aln", "w")
+    f = open("ALLELES.aln", "w")
     # write header information
     f.write("sseqid \t qseqid \t sstart \t send \t qstart \t qend \t pcutoff\n")
     # for every key value pair in line info dictionary

@@ -64,7 +64,7 @@ def divide_by_scaffold(shortestread_scaffolds_reads):
             if scaffold == key[:5]:
                 # append key (FASTA ID) and values (read) to new dictionary
                 dict_of_scaffold[key] = shortestread_scaffolds_reads["reads_dict"][key]
-        # add dictionary as value and scaffold as key to dictionary containig all scaffolds
+        # add dictionary as value and scaffold as key to dictionary containing all scaffolds
         dict_per_scaffold[scaffold]=dict_of_scaffold
     return dict_per_scaffold
 

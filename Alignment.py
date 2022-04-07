@@ -21,7 +21,7 @@ def alignment(contigs, query, percent_cutoff):
         contig_count = key + 1
         # for each index in contig between 0 and the length of the contig minus that of the query
         for startingposition in range(len(contig)-len(query)+1):
-            # get endposition of possible alignement site
+            # get endposition of possible alignment site
             end_index = startingposition + len(query)-1
             endingposition = startingposition + len(query)
             # slice contig from index to end position (index plus the length of the query)
@@ -32,7 +32,7 @@ def alignment(contigs, query, percent_cutoff):
             forward = False
             # if an alignment was found
             if len(alignment) > 0:
-                # add contig number and position of alighment as keys and aligned portion of contig, starting position,
+                # add contig number and position of alignment as keys and aligned portion of contig, starting position,
                 # ending position, and percent cutoff in a list as values
                 aligned_contig_info[contig_count, str(startingposition)+":"+str(end_index)] = \
                     [contigs[key], startingposition, end_index, round(percent_cutoff,2)]

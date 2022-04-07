@@ -4,7 +4,7 @@
 
 This program currently takes one FASTA formatted file containing multiple sequence reads and assembles them into larger
 contigs. It also takes one FASTA formatted file containing a query sequence, and aligns the query sequence to the 
-assembled contigs. The largst contigs containing the query seqeunce are then output in a file names ALLELES.fasta, and 
+assembled contigs. The largest contigs containing the query sequence are then output in a file names ALLELES.fasta, and 
 information about their alignment (e.g. FASTA read ID, alignment starting and end positions, etc.) are output in a file 
 named ALLELES.aln. 
 
@@ -78,7 +78,8 @@ This program will output two file: ALLELES.fasta and ALLELES.aln.
 Example of ALLELES.fasta output: 
 
 These contigs were assembled and aligned with test reads and query sequence using input files **QUERY_test.fasta** and 
-**READS_test.fasta**.
+**READS_test.fasta**. Data from real reads and query sequences can be found in files **QUERY_realdata_test.fasta** and 
+**READS_realdata_test.fasta**.
 
 ```text
 >2G5Z1: contig1
@@ -98,7 +99,7 @@ sseqid 	                qseqid 	    sstart 	    send 	 qstart     qend 	 pcutoff
 Note: tabs in example were adjusted to be more readable. Each item will be followed by only one tab.
 
 ## Installation and Dependencies
-You must have Python 3 installed. Any Python 3 version should work but it was written in Python 3.9 using a Windows-based 
+You must have Python 3 installed. Any Python 3 version should work, but it was written in Python 3.9 using a Windows-based 
 operating system. Package argparse 1.4.0 will need to be installed. 
 
 ## Contact 

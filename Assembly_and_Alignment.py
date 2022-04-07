@@ -29,14 +29,14 @@ parser.add_argument("--k", "-kmer_lenght", type=int, help="number of kmer length
 args = parser.parse_args()
 
 
-# this function utlizes all the functions for graph traversal and outputs and dictionary where keys are scaffolds and
+# this function utilizes all the functions for graph traversal and outputs and dictionary where keys are scaffolds and
 # values are dictionaries containing paths found through DFS graph traversal and their respective contigs.
 def assemble(shortestread_scaffolds_reads, k):
     # create dictionary of dictionaries with the format {scaffold : {readID: read, ...}, ...}
     dict_reads_per_scaffold = FileReadIn.divide_by_scaffold(shortestread_scaffolds_reads)
 
     # initiate dictionary containing paths and contigs per scaffold
-    scaffold_assmebly_info = {}
+    scaffold_assembly_info = {}
 
     # for each dictionary containing reads per scaffold
     for scaffold in dict_reads_per_scaffold:
@@ -61,10 +61,10 @@ def assemble(shortestread_scaffolds_reads, k):
         # generate contigs from corresponding paths
         contigs = Graph_and_Traversal.contigs(paths)
         # for each scaffold add paths and contigs to dictionary
-        scaffold_assmebly_info[scaffold] = {"paths": paths, "contigs": contigs}
+        scaffold_assembly_info[scaffold] = {"paths": paths, "contigs": contigs}
         break
     # returns dictionary with format: {scaffoldID: {"path": {paths}, "contigs":{contigs}}, ...}
-    return scaffold_assmebly_info
+    return scaffold_assembly_info
 
 
 # takes all contigs and aligns them to the query sequence using functions from the Alignment file
@@ -82,7 +82,7 @@ def align (contig_info, query_seq):
             # if the length of the sequence is greater than or equal to the length of the query perform alignment
             if len(contig) >= len(query_seq):
                 alignment_info = Alignment.cutoff_percent_test([contig], query_seq)
-                # if alignemnt is found
+                # if alignment is found
                 if alignment_info != None:
                     # append information to dictionary
                     aligned_contigs[scaffold + ":" + str(key)] = alignment_info
