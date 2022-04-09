@@ -79,7 +79,8 @@ Example of ALLELES.fasta output:
 
 These contigs were assembled and aligned with test reads and query sequence using input files **QUERY_test.fasta** and 
 **READS_test.fasta**. Data from real reads and query sequences can be found in files **QUERY_realdata_test.fasta** and 
-**READS_realdata_test.fasta**.
+**READS_realdata_test.fasta** or a subset of those in **QUERY_smallrealdata_test.fasta** and 
+**READS_smallrealdata_test.fasta**.
 
 ```text
 >2G5Z1: contig1
