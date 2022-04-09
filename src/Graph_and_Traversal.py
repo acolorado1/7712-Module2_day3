@@ -213,7 +213,7 @@ def contigs(paths):
             else:
                 # add the last character in node string to contig string
                 contig += path[index].seq[-1]
-            # append full contig from path to list
+            # add contig number and contig to dictionary
             stringcontigs[contig_count] = contig
         contig_count += 1
     # return list of possible contigs

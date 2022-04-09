@@ -9,7 +9,6 @@ the sequences into contigs.
 
 import argparse as arg
 import time
-
 import FileReadIn
 import Graph_and_Traversal
 import Alignment
