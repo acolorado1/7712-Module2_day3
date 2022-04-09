@@ -73,7 +73,6 @@ def contig_information(contig_info, alignment_info, largest_contig_info,k):
         # for each scaffold and contig get key
         alignment_key = scaffold+":"+str(contig_num)
         contig_alignment_info = alignment_info[alignment_key]
-        print(contig_alignment_info)
         for key in contig_alignment_info:
             # get start position in contig where query aligned to contig
             contig_start_position = contig_alignment_info[key][1]

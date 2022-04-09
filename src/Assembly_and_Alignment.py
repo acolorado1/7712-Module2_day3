@@ -8,11 +8,13 @@ the sequences into contigs.
 '''
 
 import argparse as arg
+import time
+
 import FileReadIn
 import Graph_and_Traversal
-from src import Alignment
+import Alignment
 import Output_Files
-import time
+
 
 '''
 Added 3 arguments to parser: 
@@ -118,6 +120,5 @@ def assemble_and_align(query_file, reads_file, k):
     exit()
 
 
-#assemble_and_align(args.qf, args.rf, args.k)
+assemble_and_align(args.qf, args.rf, args.k)
 
-assemble_and_align("../Example_data/QUERY_test.fasta", "READS_test.fasta", 4)

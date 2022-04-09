@@ -177,7 +177,7 @@ def startnodes_endnodes(node_tuples):
     start_end_dict = {"startnodes": start_set_difference, "endnodes": end_set_difference}
     return start_end_dict
 
-# TODO
+
 # traversing the graph using all detected end or start nodes
 def all_traversals(nodes, graph, start = False):
     # initiate list of paths created
@@ -191,8 +191,6 @@ def all_traversals(nodes, graph, start = False):
         paths[path_count] = path
         # add to path count
         path_count += 1
-        if path_count > 1000:
-            break
     # return dictionary containing all paths
     return paths
 
