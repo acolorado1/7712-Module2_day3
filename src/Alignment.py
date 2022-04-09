@@ -10,7 +10,7 @@ import difflib
 
 
 # align query sequence to assembled contigs
-def alignment(contigs, query, percent_cutoff):
+def alignment(contigs, query, percent_cutoff, contig_count):
     # initiate dictionary that will contain alignment info
     aligned_contig_info = {}
     # for each contig take each key
@@ -18,7 +18,6 @@ def alignment(contigs, query, percent_cutoff):
         # find string contig at key
         contig = contigs[key]
         # keep track of the contig number with counter
-        contig_count = key + 1
         # for each index in contig between 0 and the length of the contig minus that of the query
         for startingposition in range(len(contig)-len(query)+1):
             # get endposition of possible alignment site
@@ -58,11 +57,11 @@ def alignment(contigs, query, percent_cutoff):
 
 
 # if no alignments are found with a certain cutoff decrease cutoff percent by 5
-def cutoff_percent_test (contigs, query):
+def cutoff_percent_test (contigs, query, contig_count):
     # set cutoff percent to 1.00
     percent_cutoff = 1.00
     # test alignment
-    aligned_contig_info = alignment(contigs, query, percent_cutoff)
+    aligned_contig_info = alignment(contigs, query, percent_cutoff, contig_count)
     # while there is no alignment
     while len(aligned_contig_info) == 0:
         # if percent cutoff is 0.5 or more
@@ -70,7 +69,7 @@ def cutoff_percent_test (contigs, query):
             # reduce cutoff by 0.05
             percent_cutoff = percent_cutoff - 0.05
             # test alignment with current cut off percent
-            aligned_contig_info = alignment(contigs, query, percent_cutoff)
+            aligned_contig_info = alignment(contigs, query, percent_cutoff, contig_count)
         # if percent cutoff is less that 0.5
         else:
             # no alignments have been found

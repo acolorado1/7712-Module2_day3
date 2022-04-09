@@ -88,7 +88,14 @@ MYGODREUBENWIN
 MYDOGMAXSMOKEY
 ```
 
-Example of ALLELES.aln output: 
+Example of ALLELES.aln output:
+* sseqid: FASTA read iD that was used to create the contig where alignment was found 
+* qseqid: ID of the contig 
+* sstart: starting position of alignment in original read
+* send: ending position of alignment in original read 
+* qstart: starting position of alignment in the contig
+* qend: ending position of alignment in the contig 
+* pcutoff: the percentage cutoff that was used to perform alignment 
 
 ```text
 sseqid 	                qseqid 	    sstart 	    send 	 qstart     qend 	 pcutoff

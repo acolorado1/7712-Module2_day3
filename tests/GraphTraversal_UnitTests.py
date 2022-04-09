@@ -5,7 +5,8 @@ Purpose: Perform unit tests on functions pertaining to the graph traversal porti
 '''
 
 import unittest
-import Graph_and_Traversal as GT
+from src import Graph_and_Traversal as GT
+
 
 class TestGraph_and_Traversal(unittest.TestCase):
     def test_kmers(self):

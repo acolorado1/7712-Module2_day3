@@ -10,7 +10,7 @@ the sequences into contigs.
 import argparse as arg
 import FileReadIn
 import Graph_and_Traversal
-import Alignment
+from src import Alignment
 import Output_Files
 import time
 
@@ -62,13 +62,12 @@ def assemble(shortestread_scaffolds_reads, k):
         contigs = Graph_and_Traversal.contigs(paths)
         # for each scaffold add paths and contigs to dictionary
         scaffold_assembly_info[scaffold] = {"paths": paths, "contigs": contigs}
-        break
     # returns dictionary with format: {scaffoldID: {"path": {paths}, "contigs":{contigs}}, ...}
     return scaffold_assembly_info
 
 
 # takes all contigs and aligns them to the query sequence using functions from the Alignment file
-def align (contig_info, query_seq):
+def align(contig_info, query_seq):
     # initalize empty dictionary that will contain alignment information
     aligned_contigs = {}
     # for each scaffold
@@ -81,7 +80,7 @@ def align (contig_info, query_seq):
             contig = contigs[key]
             # if the length of the sequence is greater than or equal to the length of the query perform alignment
             if len(contig) >= len(query_seq):
-                alignment_info = Alignment.cutoff_percent_test([contig], query_seq)
+                alignment_info = Alignment.cutoff_percent_test([contig], query_seq, key)
                 # if alignment is found
                 if alignment_info != None:
                     # append information to dictionary
@@ -102,21 +101,23 @@ def assemble_and_align(query_file, reads_file, k):
     t1 = time.time()
     contig_info = assemble(shortestread_scaffolds_reads, k)
     t2 = time.time()
-    print("got all paths, time: ", t2-t1)
+    print("All paths found, time elapsed: ", t2-t1)
     # get alignment information
     alignment_info = align(contig_info, query)
     t3 = time.time()
-    print("got alignment info, time: ", t3-t2)
+    print("Alignment performed, time elapsed: ", t3-t2)
     # get dictionary of largest aligned contigs and output file containing their sequences
     t4 = time.time()
-    largest_output_file = Output_Files.largest_contig(alignment_info)
-    print("largest contig, time: ", t4-t3)
+    scaffolds = shortestread_scaffolds_reads["scaffolds"]
+    largest_output_file = Output_Files.largest_contig(alignment_info, scaffolds)
+    print("File with largest contigs created, time elapsed: ", t4-t3)
     # generate file containing alignment information on the largest contigs
-    Output_Files.contig_information(contig_info, alignment_info, largest_output_file,k)
+    Output_Files.contig_information(contig_info, alignment_info, largest_output_file, k)
     t5 = time.time()
-    print("output file with alignment info, time: ", t5-t4)
+    print("File with alignment information created, time elapsed: ", t5-t4)
     exit()
 
 
-assemble_and_align(args.qf, args.rf, args.k)
+#assemble_and_align(args.qf, args.rf, args.k)
 
+assemble_and_align("../Example_data/QUERY_test.fasta", "READS_test.fasta", 4)

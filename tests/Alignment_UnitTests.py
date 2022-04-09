@@ -5,7 +5,8 @@ Purpose: These are the unitests done on the code pertaining to alignment in this
 '''
 
 import unittest
-import Alignment
+from src import Alignment
+
 
 class MyTestCase(unittest.TestCase):
 
